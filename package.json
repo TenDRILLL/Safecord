@@ -1,0 +1,23 @@
+{
+  "name": "captcha-bot",
+  "description": "A Discord Bot that allows you to give a GuildMember a Role after they complete a ModalInteraction \"CAPTCHA\".",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "devDependencies": {},
+  "dependencies": {
+    "discord.js": "^14.0.0-dev.1653480262-68d5169"
+  },
+  "scripts": {
+    "build": "tsc --build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TenDRILLL/CAPTCHA-Bot.git"
+  },
+  "author": "Ten#0010",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TenDRILLL/CAPTCHA-Bot/issues"
+  },
+  "homepage": "https://github.com/TenDRILLL/CAPTCHA-Bot#readme"
+}
