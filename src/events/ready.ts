@@ -7,3 +7,4 @@ class Ready extends require("../classes/Event"){
         console.log("Ready!");
     }
 }
+module.exports = new Ready();
