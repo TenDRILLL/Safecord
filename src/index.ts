@@ -4,7 +4,7 @@ const bot = new Client({
         GatewayIntentBits.Guilds
     ]
 });
-const { token } = require("../build/config.json");
+const { token } = require("./config.json");
 
 require("./automation/createEvents").exec(bot);
 
