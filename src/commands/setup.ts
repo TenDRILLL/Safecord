@@ -1,4 +1,6 @@
-const { ApplicationCommandOptionType } = require("discord.js");
+const { ApplicationCommandOptionType, ActionRowBuilder,
+    ButtonBuilder } = require("discord.js");
+const CConfig = require("../classes/CaptchaConfig");
 class setup extends require("../classes/Command"){
     constructor(){
         super(
@@ -108,18 +110,45 @@ class setup extends require("../classes/Command"){
             }
         );
         /* /setup
-        *  -> role ROLE:set
+        *  -> role ROLE:role
         *  -> button STRING:name STRING:color:AUTOCOMPLETE, STRING:emoji:OPTIONAL
-        *  -> message STRING:set
-        *  -> description STRING:set
+        *  -> message STRING:message
+        *  -> description STRING:description
         *  -> locale STRING:set:AUTOCOMPLETE
-        *  -> enabled BOOLEAN:set
+        *  -> enabled BOOLEAN:enabled
         *  -> send CHANNEL:channel
         * */
     }
 
     cmdRun(interaction,bot){
-        interaction.reply("Yes.");
+        let configuration;
+
+        if(!(bot.db.has(interaction.guild.id))){
+            configuration = new CConfig({});
+            bot.db.set(interaction.guild.id, configuration);
+        } else {
+            configuration = bot.db.get(interaction.guild.id);
+        }
+
+        if(interaction.options.get("channel")){
+            interaction.deferReply();
+            const button = new ButtonBuilder()
+                .setLabel(configuration.button.name)
+                .setCustomId(`captcha-${interaction.guild.id}`);
+            if(configuration.button.emoji === null){
+                button.setStyle(configuration.resolveStyle(configuration.button.color)) //TODO: Fix, broken.
+            } else {
+                button.setEmoji(configuration.button.emoji);
+            }
+            interaction.options.get("channel").send({
+                content: configuration.message,
+                components: [
+                    new ActionRowBuilder().setComponents([button])
+                ]
+            }).then(()=>{
+                interaction.editReply({content: "Sent."});
+            });
+        }
     }
 }
 module.exports = new setup();
