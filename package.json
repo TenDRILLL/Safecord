@@ -3,12 +3,14 @@
   "description": "A Discord Bot that allows you to give a GuildMember a Role after they complete a ModalInteraction \"CAPTCHA\".",
   "version": "1.0.0",
   "main": "src/index.ts",
-  "devDependencies": {},
   "dependencies": {
-    "discord.js": "^14.0.0-dev.1653480262-68d5169"
+    "discord.js": "^14.0.0-dev.1653480262-68d5169",
+    "typescript": "^4.7.2"
   },
   "scripts": {
-    "build": "tsc --build"
+    "build": "tsc --build",
+    "buildrun": "tsc --build && cd build && node ./index.js",
+    "builddeploy": "tsc --build && cd build && node ./deployCommands.js"
   },
   "repository": {
     "type": "git",
