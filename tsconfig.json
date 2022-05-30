@@ -2,8 +2,12 @@
   "compilerOptions": {
     "outDir": "./build",
     "allowJs": true,
-    "target": "es5",
-    "lib": ["ES5"]
+    "target": "esnext",
+    "lib": ["ES5"],
+    "strictNullChecks": true,
+    "moduleResolution": "Node",
+    "allowSyntheticDefaultImports": true,
+    "module": "commonjs"
   },
   "include": ["./src/**/*"]
 }
