@@ -1,6 +1,7 @@
+import { ApplicationCommandData } from "discord.js";
 class Command {
     private readonly name: string;
-    private readonly slashObject: object;
+    private readonly slashObject: ApplicationCommandData;
 
     constructor(name, slashObject){
         this.name = name;
