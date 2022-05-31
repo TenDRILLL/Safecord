@@ -15,9 +15,6 @@ bot.db = new Enmap(
 require("./automation/createEvents").exec(bot);
 
 bot.login(token)
-    .then(()=>{
-        console.log("Connected to the Gateway successfully.");
-    })
     .catch((e)=>{
         console.error(e);
     });
