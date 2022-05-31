@@ -15,20 +15,6 @@ class CaptchaConfig {
         this.language = configObject.language ?? "en-us";
         this.enabled = configObject.enabled ?? true;
     }
-
-    resolveStyle(style){
-        switch(style){
-            case "Grey":
-                return ButtonStyle.Secondary;
-            case "Green":
-                return ButtonStyle.Success;
-            case "Red":
-                return ButtonStyle.Danger;
-            case "Blurple":
-            default:
-                return ButtonStyle.Primary;
-        }
-    }
 }
 
 module.exports = CaptchaConfig;

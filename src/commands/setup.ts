@@ -1,3 +1,5 @@
+import {ButtonStyle} from "discord.js";
+
 const { ApplicationCommandOptionType, ActionRowBuilder,
     ButtonBuilder } = require("discord.js");
 const CConfig = require("../classes/CaptchaConfig");
@@ -131,23 +133,36 @@ class setup extends require("../classes/Command"){
         }
 
         if(interaction.options.get("channel")){
-            interaction.deferReply();
             const button = new ButtonBuilder()
                 .setLabel(configuration.button.name)
                 .setCustomId(`captcha-${interaction.guild.id}`);
             if(configuration.button.emoji === null){
-                button.setStyle(configuration.resolveStyle(configuration.button.color)) //TODO: Fix, broken.
+                button.setStyle(this.resolveStyle(configuration.button.color));
             } else {
                 button.setEmoji(configuration.button.emoji);
             }
-            interaction.options.get("channel").send({
+            interaction.options.get("channel").channel.send({
                 content: configuration.message,
                 components: [
                     new ActionRowBuilder().setComponents([button])
                 ]
             }).then(()=>{
-                interaction.editReply({content: "Sent."});
+                interaction.reply({content: "Sent."});
             });
+        }
+    }
+
+    resolveStyle(style){
+        switch(style){
+            case "Grey":
+                return ButtonStyle.Secondary;
+            case "Green":
+                return ButtonStyle.Success;
+            case "Red":
+                return ButtonStyle.Danger;
+            case "Blurple":
+            default:
+                return ButtonStyle.Primary;
         }
     }
 }
