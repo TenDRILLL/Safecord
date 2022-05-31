@@ -142,7 +142,7 @@ class setup extends require("../classes/Command"){
             } else {
                 button.setEmoji(configuration.button.emoji);
             }
-            interaction.options.get("channel").channel.send({
+            return interaction.options.get("channel").channel.send({
                 content: configuration.message,
                 components: [
                     new ActionRowBuilder().setComponents([button])
@@ -156,7 +156,7 @@ class setup extends require("../classes/Command"){
             const role = interaction.options.get("role").role;
             if(configuration.role === role.id) return interaction.reply({content: "❌ ERROR: `New role cannot be the same as the old role.`"});
             bot.db.set(interaction.guild.id, role.id, "role");
-            interaction.reply({content: `Role set to: ${role.name}.`});
+            return interaction.reply({content: `Role set to: ${role.name}.`});
         }
     }
 
