@@ -158,6 +158,12 @@ class setup extends require("../classes/Command"){
             bot.db.set(interaction.guild.id, role.id, "role");
             return interaction.reply({content: `Role set to: ${role.name}.`});
         }
+
+        if(interaction.options.get("message")){
+            const message = interaction.options.get("message").value;
+            bot.db.set(interaction.guild.id, message, "message");
+            return interaction.reply({content: `Message set.`});
+        }
     }
 
     resolveStyle(style){
