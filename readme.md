@@ -6,6 +6,10 @@ Checklist:
 - - [ ] Random code in title *"${code}"*
 - - [ ] Store code in modal id
 - [ ] Setup command
-- - [ ] Define role to be given
-- - [ ] Define message to be sent with button
-- - [ ] Define Button text & color 
+- - [x] Define role to be given
+- - [x] Define message to be sent with button
+- - [ ] Define Button text & color
+- - [x] Define Modal Description
+- - [ ] Define Language
+- - [ ] Enable/Disable
+- - [x] Allow sending
