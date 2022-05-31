@@ -9,5 +9,5 @@
     "allowSyntheticDefaultImports": true,
     "module": "commonjs"
   },
-  "include": ["./src/**/*"]
+  "include": ["src"]
 }
