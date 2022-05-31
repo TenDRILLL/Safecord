@@ -15,6 +15,10 @@ module.exports.getLanguageCodes = (startsWith = "") => {
     return codes.filter(x => x.toLowerCase().startsWith(startsWith.toLowerCase())).map(x => ({name: x, value: x}));
 }
 
+module.exports.checkIfValidLanguage = (language) => {
+    return languages.has(language);
+}
+
 module.exports.getTranslation = (language,line) => {
     if(!(languages.has(language))) return "Invalid language selected.";
     const translations = languages.get(language);

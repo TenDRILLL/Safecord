@@ -163,6 +163,14 @@ class setup extends require("../classes/Command"){
             bot.db.set(interaction.guild.id, message, "message");
             return interaction.reply({content: `Message set.`});
         }
+
+        if(interaction.options.get("language")){
+            const language = interaction.options.get("language").value;
+            if(configuration.language === language) return interaction.reply({content: "❌ ERROR: `New language cannot be the same as the old language.`"});
+            if(!(Translator.checkIfValidLanguage(language))) return interaction.reply({content: "❌ ERROR: `Invalid language.`"});
+            bot.db.set(interaction.guild.id, language, "language");
+            return interaction.reply({content: `Language set.`});
+        }
     }
 
     acRun(interaction){
