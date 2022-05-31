@@ -150,6 +150,13 @@ class setup extends require("../classes/Command"){
                 interaction.reply({content: "Sent."});
             });
         }
+
+        if(interaction.options.get("role")){
+            const role = interaction.options.get("role").role;
+            if(configuration.role === role.id) return interaction.reply({content: "❌ ERROR: `New role cannot be the same as the old role.`"});
+            bot.db.set(interaction.guild.id, role.id, "role");
+            interaction.reply({content: `Role set to: ${role.name}.`});
+        }
     }
 
     resolveStyle(style){
