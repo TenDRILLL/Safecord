@@ -10,6 +10,6 @@ Checklist:
 - - [x] Define message to be sent with button
 - - [ ] Define Button text & color
 - - [x] Define Modal Description
-- - [ ] Define Language
+- - [x] Define Language
 - - [ ] Enable/Disable
 - - [x] Allow sending
