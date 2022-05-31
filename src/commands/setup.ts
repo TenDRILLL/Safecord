@@ -1,8 +1,7 @@
-import {ButtonStyle} from "discord.js";
-
 const { ApplicationCommandOptionType, ActionRowBuilder,
-    ButtonBuilder } = require("discord.js");
+    ButtonBuilder, ButtonStyle } = require("discord.js");
 const CConfig = require("../classes/CaptchaConfig");
+const Translator = require("../automation/translator");
 class setup extends require("../classes/Command"){
     constructor(){
         super(
@@ -164,6 +163,11 @@ class setup extends require("../classes/Command"){
             bot.db.set(interaction.guild.id, message, "message");
             return interaction.reply({content: `Message set.`});
         }
+    }
+
+    acRun(interaction){
+        const value = interaction.options.getFocused();
+        interaction.respond(Translator.getLanguageCodes(value));
     }
 
     resolveStyle(style){
