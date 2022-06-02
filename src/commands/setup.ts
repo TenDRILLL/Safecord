@@ -47,7 +47,7 @@ class setup extends require("../classes/Command"){
                         ]
                     }, {
                         name: "message",
-                        description: "Message that is sent with the Button to open Captcha.",
+                        description: "Message that is sent with the Button to open Captcha Modal.",
                         type: ApplicationCommandOptionType.Subcommand,
                         options: [
                             {
@@ -66,19 +66,6 @@ class setup extends require("../classes/Command"){
                                 name: "description",
                                 description: "Description to be displayed.",
                                 type: ApplicationCommandOptionType.String,
-                                required: true
-                            }
-                        ]
-                    }, {
-                        name: "language",
-                        description: "The desired language of the Captcha Modal.",
-                        type: ApplicationCommandOptionType.Subcommand,
-                        options: [
-                            {
-                                name: "language",
-                                description: "Language code to be used.",
-                                type: ApplicationCommandOptionType.String,
-                                autocomplete: true,
                                 required: true
                             }
                         ]
@@ -170,14 +157,6 @@ class setup extends require("../classes/Command"){
             const message = interaction.options.get("message").value;
             bot.db.set(interaction.guild.id, message, "message");
             return interaction.reply({content: `Message set.`});
-        }
-
-        if(interaction.options.get("language")){
-            const language = interaction.options.get("language").value;
-            if(configuration.language === language) return interaction.reply({content: "❌ ERROR: `New language cannot be the same as the old language.`"});
-            if(!(Translator.checkIfValidLanguage(language))) return interaction.reply({content: "❌ ERROR: `Invalid language.`"});
-            bot.db.set(interaction.guild.id, language, "language");
-            return interaction.reply({content: `Language set.`});
         }
 
         if(interaction.options.get("enabled")){
