@@ -171,6 +171,13 @@ class setup extends require("../classes/Command"){
             bot.db.set(interaction.guild.id, language, "language");
             return interaction.reply({content: `Language set.`});
         }
+
+        if(interaction.options.get("enabled")){
+            const enabled = interaction.options.get("enabled").value;
+            if(configuration.enabled === enabled) return interaction.reply({content: `❌ ERROR: \`Button is already set to ${enabled ? "enabled" : "disabled"}\`.`});
+            bot.db.set(interaction.guild.id, enabled, "enabled");
+            return interaction.reply({content: `Button ${enabled ? "enabled" : "disabled"}.`});
+        }
     }
 
     acRun(interaction){

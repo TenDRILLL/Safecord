@@ -11,5 +11,5 @@ Checklist:
 - - [ ] Define Button text & color
 - - [x] Define Modal Description
 - - [x] Define Language
-- - [ ] Enable/Disable
+- - [x] Enable/Disable
 - - [x] Allow sending
