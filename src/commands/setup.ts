@@ -196,7 +196,13 @@ class setup extends require("../classes/Command"){
                 const discordEmojiRgx = /<a?:(\w{2,32}):(\d{17,19})>/;
                 const unicodeEmojiRgx = /(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])/;
                 if(discordEmojiRgx.test(emoji)){
-                    configuration.button.emoji = emoji.split(":")[2].slice(0,-1);
+                    let id = emoji.split(":")[2].slice(0,-1);
+                    let emojiTest = bot.emojis.resolve(id);
+                    if(emojiTest){
+                        configuration.button.emoji = id;
+                    } else {
+                        return interaction.reply({content: `❌ ERROR: \`Emoji provided is from a server I am not on.\``});
+                    }
                 } else if(unicodeEmojiRgx.test(emoji)){
                     configuration.button.emoji = emoji;
                 } else {
@@ -211,7 +217,10 @@ class setup extends require("../classes/Command"){
             configuration.button.name = name;
             configuration.button.color = color;
             bot.db.set(interaction.guild.id,configuration.button, "button");
-            interaction.reply({content: `Following properties were set: \`Name: ${name}, Color: ${color}${emoji !== "" ? `, Emoji ${emoji}` : ""}\``});
+            interaction.reply({content: `Following properties were set:
+Name: ${name}
+Color: ${color}${emoji !== "" ? `
+Emoji: ${emoji}` : ""}`});
         }
     }
 
