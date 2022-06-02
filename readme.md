@@ -13,3 +13,12 @@ Checklist:
 - - [x] ~~Define Language~~ -> Will be made automatic.
 - - [x] Enable/Disable
 - - [x] Allow sending
+
+Example config.json file:
+```json
+{
+  "token": "thisisnotavalidtokenbruh.please.gogenerateyourowntokenthankyouverymuch",
+  "applicationId": "123456789012345678"
+}
+```
+Obviously replace the values with your own, got from a New Application, which you can create in the [Discord Developer Portal](https://discord.com/developers/applications).
