@@ -178,16 +178,48 @@ class setup extends require("../classes/Command"){
             bot.db.set(interaction.guild.id, enabled, "enabled");
             return interaction.reply({content: `Button ${enabled ? "enabled" : "disabled"}.`});
         }
+
+        if(interaction.options.getSubcommand() === "button"){
+            const name = interaction.options.get("name").value;
+            let color = interaction.options.get("color").value;
+            const emoji = interaction.options.get("emoji").value;
+            if(emoji){
+                const discordEmojiRgx = /<a?:(\w{2,32}):(\d{17,19})>/;
+                const unicodeEmojiRgx = /(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])/;
+                if(discordEmojiRgx.test(emoji)){
+                    configuration.button.emoji = emoji.split(":")[2].slice(0,-1);
+                } else if(unicodeEmojiRgx.test(emoji)){
+                    configuration.button.emoji = emoji;
+                } else {
+                    return interaction.reply({content: `❌ ERROR: \`${emoji} is not a valid Emoji.\``});
+                }
+            } else if(configuration.button.emoji){
+                configuration.button.emoji = null;
+            }
+            if(!(["Gray", "Green", "Red", "Blurple"].includes(color))){
+                return interaction.reply({content: `❌ ERROR: \`${color} is not a valid color.\``});
+            }
+            configuration.button.name = name;
+            configuration.button.color = color;
+            bot.db.set(interaction.guild.id,configuration.button, "button");
+            interaction.reply({content: `Following properties were set: \`Name: ${name}, Color: ${color}${emoji ? `, Emoji ${emoji}` : ""}\``});
+        }
     }
 
     acRun(interaction){
-        const value = interaction.options.getFocused();
-        interaction.respond(Translator.getLanguageCodes(value));
+        const focus = interaction.options.getFocused(true);
+        if(focus.name === "language"){
+            interaction.respond(Translator.getLanguageCodes(focus.value));
+        } else if(focus.name === "color") {
+            interaction.respond(["Gray", "Green", "Red", "Blurple"].filter(x => x.toLowerCase().startsWith(focus.value.toLowerCase())).map(x => ({name: x, value: x})));
+        } else {
+            interaction.respond([]);
+        }
     }
 
     resolveStyle(style){
         switch(style){
-            case "Grey":
+            case "Gray":
                 return ButtonStyle.Secondary;
             case "Green":
                 return ButtonStyle.Success;

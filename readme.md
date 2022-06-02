@@ -8,7 +8,7 @@ Checklist:
 - [ ] Setup command
 - - [x] Define role to be given
 - - [x] Define message to be sent with button
-- - [ ] Define Button text & color
+- - [x] Define Button text & color
 - - [x] Define Modal Description
 - - [x] Define Language
 - - [x] Enable/Disable
