@@ -1,4 +1,4 @@
 //FI-FI
 module.exports = {
-    "code": "koodi"
+    "input": "Syötä koodi:"
 };

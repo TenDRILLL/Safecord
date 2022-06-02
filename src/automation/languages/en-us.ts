@@ -1,4 +1,4 @@
 //EN-US
 module.exports = {
-    "code": "code"
+    "input": "Input the following code:"
 };
