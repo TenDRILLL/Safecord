@@ -136,11 +136,18 @@ class setup extends require("../classes/Command"){
             if(!(interaction.options.get("channel").channel.isText())) return interaction.reply({content: `❌ ERROR: \`${interaction.options.get("channel").channel.name} is not a text channel.\``});
             const button = new ButtonBuilder()
                 .setLabel(configuration.button.name)
-                .setCustomId(`captcha-${interaction.guild.id}`);
-            if(configuration.button.emoji === null){
-                button.setStyle(this.resolveStyle(configuration.button.color));
-            } else {
-                button.setEmoji(configuration.button.emoji);
+                .setCustomId(`captcha-${interaction.guild.id}`)
+                .setStyle(this.resolveStyle(configuration.button.color));
+            if(configuration.button.emoji !== null){
+                let emoji = configuration.button.emoji;
+                if(/(\d{17,19})/.test(emoji)){
+                    emoji = bot.emojis.resolve(emoji);
+                    if(emoji){
+                        button.setEmoji(emoji);
+                    }
+                } else {
+                    button.setEmoji(configuration.button.emoji);
+                }
             }
             return interaction.options.get("channel").channel.send({
                 content: configuration.message,
