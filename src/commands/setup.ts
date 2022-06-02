@@ -12,71 +12,71 @@ class setup extends require("../classes/Command"){
                 options: [
                     {
                         name: "role",
-                        description: "123",
+                        description: "Setup the Role to be given upon a successful Captcha.",
                         type: ApplicationCommandOptionType.Subcommand,
                         options: [
                             {
                                 name: "role",
-                                description: "456",
+                                description: "Role to be given.",
                                 type: ApplicationCommandOptionType.Role,
                                 required: true
                             }
                         ]
                     }, {
                         name: "button",
-                        description: "123",
+                        description: "Setup the Button that will open the Captcha Modal.",
                         type: ApplicationCommandOptionType.Subcommand,
                         options: [
                             {
                                 name: "name",
-                                description: "456",
+                                description: "Button's label.",
                                 type: ApplicationCommandOptionType.String,
                                 required: true
                             }, {
                                 name: "color",
-                                description: "456",
+                                description: "Button's color.",
                                 type: ApplicationCommandOptionType.String,
                                 autocomplete: true,
                                 required: true
                             }, {
                                 name: "emoji",
-                                description: "456",
+                                description: "Button's emoji (can be custom and animated).",
                                 type: ApplicationCommandOptionType.String,
                                 required: false
                             }
                         ]
                     }, {
                         name: "message",
-                        description: "123",
+                        description: "Message that is sent with the Button to open Captcha.",
                         type: ApplicationCommandOptionType.Subcommand,
                         options: [
                             {
                                 name: "message",
-                                description: "456",
+                                description: "Message to be sent.",
                                 type: ApplicationCommandOptionType.String,
                                 required: true
                             }
                         ]
                     }, {
                         name: "description",
-                        description: "123",
+                        description: "Short description that will be displayed inside the Captcha Modal.",
                         type: ApplicationCommandOptionType.Subcommand,
                         options: [
                             {
                                 name: "description",
-                                description: "456",
+                                description: "Description to be displayed.",
                                 type: ApplicationCommandOptionType.String,
                                 required: true
                             }
                         ]
                     }, {
                         name: "language",
-                        description: "123",
+                        description: "The desired language of the Captcha Modal.",
                         type: ApplicationCommandOptionType.Subcommand,
                         options: [
                             {
                                 name: "language",
-                                description: "456",
+                                description: "Language code to be used.",
                                 type: ApplicationCommandOptionType.String,
                                 autocomplete: true,
                                 required: true
@@ -84,24 +84,24 @@ class setup extends require("../classes/Command"){
                         ]
                     }, {
                         name: "enabled",
-                        description: "123",
+                        description: "Enable or disable the Button that opens the Captcha Modal.",
                         type: ApplicationCommandOptionType.Subcommand,
                         options: [
                             {
                                 name: "enabled",
-                                description: "456",
+                                description: "Enable the button?",
                                 type: ApplicationCommandOptionType.Boolean,
                                 required: true
                             }
                         ]
                     }, {
                         name: "send",
-                        description: "123",
+                        description: "Channel to send the Captcha Message and Button on.",
                         type: ApplicationCommandOptionType.Subcommand,
                         options: [
                             {
                                 name: "channel",
-                                description: "456",
+                                description: "The channel that the Captcha Message and Modal will be sent.",
                                 type: ApplicationCommandOptionType.Channel,
                                 required: true
                             }
