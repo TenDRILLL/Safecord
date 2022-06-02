@@ -190,8 +190,9 @@ class setup extends require("../classes/Command"){
         if(interaction.options.getSubcommand() === "button"){
             const name = interaction.options.get("name").value;
             let color = interaction.options.get("color").value;
-            const emoji = interaction.options.get("emoji").value;
-            if(emoji){
+            let emoji = "";
+            if(interaction.options.get("emoji")){
+                emoji = interaction.options.get("emoji").value;
                 const discordEmojiRgx = /<a?:(\w{2,32}):(\d{17,19})>/;
                 const unicodeEmojiRgx = /(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])/;
                 if(discordEmojiRgx.test(emoji)){
@@ -210,7 +211,7 @@ class setup extends require("../classes/Command"){
             configuration.button.name = name;
             configuration.button.color = color;
             bot.db.set(interaction.guild.id,configuration.button, "button");
-            interaction.reply({content: `Following properties were set: \`Name: ${name}, Color: ${color}${emoji ? `, Emoji ${emoji}` : ""}\``});
+            interaction.reply({content: `Following properties were set: \`Name: ${name}, Color: ${color}${emoji !== "" ? `, Emoji ${emoji}` : ""}\``});
         }
     }
 
