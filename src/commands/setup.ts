@@ -133,6 +133,7 @@ class setup extends require("../classes/Command"){
 
         if(interaction.options.get("channel")){
             if(configuration.role === null) return interaction.reply({content: "❌ ERROR: `No role set.`"});
+            if(!(interaction.options.get("channel").channel.isText())) return interaction.reply({content: `❌ ERROR: \`${interaction.options.get("channel").channel.name} is not a text channel.\``});
             const button = new ButtonBuilder()
                 .setLabel(configuration.button.name)
                 .setCustomId(`captcha-${interaction.guild.id}`);
