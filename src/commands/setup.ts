@@ -1,7 +1,6 @@
 const { ApplicationCommandOptionType, ActionRowBuilder,
     ButtonBuilder, ButtonStyle } = require("discord.js");
 const CConfig = require("../classes/CaptchaConfig");
-const Translator = require("../automation/translator");
 class setup extends require("../classes/Command"){
     constructor(){
         super(
@@ -205,9 +204,7 @@ Emoji: ${emoji}` : ""}`});
 
     acRun(interaction){
         const focus = interaction.options.getFocused(true);
-        if(focus.name === "language"){
-            interaction.respond(Translator.getLanguageCodes(focus.value));
-        } else if(focus.name === "color") {
+        if(focus.name === "color") {
             interaction.respond(["Gray", "Green", "Red", "Blurple"].filter(x => x.toLowerCase().startsWith(focus.value.toLowerCase())).map(x => ({name: x, value: x})));
         } else {
             interaction.respond([]);
