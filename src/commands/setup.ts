@@ -157,26 +157,30 @@ class setup extends require("../classes/Command"){
             const role = interaction.options.get("role").role;
             if(configuration.role === role.id) return interaction.reply({content: "❌ ERROR: `New role cannot be the same as the old role.`"});
             bot.db.set(interaction.guild.id, role.id, "role");
-            return interaction.reply({content: `Role set to: ${role.name}.`});
+            interaction.reply({content: `Role set to: ${role.name}.`});
+            return this.updateCaptcha(interaction,configuration);
         }
 
         if(interaction.options.get("message")){
             const message = interaction.options.get("message").value;
             bot.db.set(interaction.guild.id, message, "message");
-            return interaction.reply({content: `Message set.`});
+            interaction.reply({content: `Message set.`});
+            return this.updateCaptcha(interaction,configuration);
         }
 
         if(interaction.options.get("description")){
             const description = interaction.options.get("description").value;
             bot.db.set(interaction.guild.id, description, "description");
-            return interaction.reply({content: `Description set.`});
+            interaction.reply({content: `Description set.`});
+            return this.updateCaptcha(interaction,configuration);
         }
 
         if(interaction.options.get("enabled")){
             const enabled = interaction.options.get("enabled").value;
             if(configuration.enabled === enabled) return interaction.reply({content: `❌ ERROR: \`Button is already set to ${enabled ? "enabled" : "disabled"}\`.`});
             bot.db.set(interaction.guild.id, enabled, "enabled");
-            return interaction.reply({content: `Button ${enabled ? "enabled" : "disabled"}.`});
+            interaction.reply({content: `Button ${enabled ? "enabled" : "disabled"}.`});
+            return this.updateCaptcha(interaction,configuration);
         }
 
         if(interaction.options.getSubcommand() === "button"){
@@ -213,6 +217,7 @@ class setup extends require("../classes/Command"){
 Name: ${name}
 Color: ${color}${emoji !== "" ? `
 Emoji: ${emoji}` : ""}`});
+            return this.updateCaptcha(interaction,configuration);
         }
     }
 
@@ -237,6 +242,37 @@ Emoji: ${emoji}` : ""}`});
             default:
                 return ButtonStyle.Primary;
         }
+    }
+
+    updateCaptcha(interaction,configuration){
+        if(configuration.post === null) return;
+        interaction.guild.channels.cache.get(configuration.post.split("/")[1])
+            .messages.fetch({message: configuration.post.split("/")[2], force: true}).then(message => {
+            const button = new ButtonBuilder()
+                .setLabel(configuration.button.name)
+                .setCustomId(`captcha-${interaction.guild.id}`)
+                .setStyle(this.resolveStyle(configuration.button.color));
+            if(configuration.button.emoji !== null){
+                let emoji = configuration.button.emoji;
+                if(/(\d{17,19})/.test(emoji)){
+                    emoji = bot.emojis.resolve(emoji);
+                    if(emoji){
+                        button.setEmoji(emoji);
+                    }
+                } else {
+                    button.setEmoji(configuration.button.emoji);
+                }
+            }
+            message.edit({
+                content: configuration.message,
+                components: [
+                    new ActionRowBuilder().setComponents([button])
+                ]
+            });
+        }).catch(() => {
+            console.log("Post information invalid, resetting it.");
+            bot.db.set(interaction.guild.id, null, "post");
+        });
     }
 }
 module.exports = new setup();
