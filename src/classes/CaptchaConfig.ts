@@ -1,4 +1,3 @@
-import {ButtonStyle} from "discord.js";
 class CaptchaConfig {
     private readonly role: string;
     private readonly button: object;
