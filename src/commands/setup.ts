@@ -156,6 +156,7 @@ class setup extends require("../classes/Command"){
         if(interaction.options.get("role")){
             const role = interaction.options.get("role").role;
             if(configuration.role === role.id) return interaction.reply({content: "❌ ERROR: `New role cannot be the same as the old role.`"});
+            configuration.role = role.id;
             bot.db.set(interaction.guild.id, role.id, "role");
             interaction.reply({content: `Role set to: ${role.name}.`});
             return this.updateCaptcha(interaction,configuration);
@@ -163,6 +164,7 @@ class setup extends require("../classes/Command"){
 
         if(interaction.options.get("message")){
             const message = interaction.options.get("message").value;
+            configuration.message = message;
             bot.db.set(interaction.guild.id, message, "message");
             interaction.reply({content: `Message set.`});
             return this.updateCaptcha(interaction,configuration);
@@ -170,6 +172,7 @@ class setup extends require("../classes/Command"){
 
         if(interaction.options.get("description")){
             const description = interaction.options.get("description").value;
+            configuration.description = description;
             bot.db.set(interaction.guild.id, description, "description");
             interaction.reply({content: `Description set.`});
             return this.updateCaptcha(interaction,configuration);
@@ -178,6 +181,7 @@ class setup extends require("../classes/Command"){
         if(interaction.options.get("enabled")){
             const enabled = interaction.options.get("enabled").value;
             if(configuration.enabled === enabled) return interaction.reply({content: `❌ ERROR: \`Button is already set to ${enabled ? "enabled" : "disabled"}\`.`});
+            configuration.enabled = enabled;
             bot.db.set(interaction.guild.id, enabled, "enabled");
             interaction.reply({content: `Button ${enabled ? "enabled" : "disabled"}.`});
             return this.updateCaptcha(interaction,configuration);
