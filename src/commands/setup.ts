@@ -166,7 +166,8 @@ class setup extends require("../classes/Command"){
             const message = interaction.options.get("message").value;
             configuration.message = message;
             bot.db.set(interaction.guild.id, message, "message");
-            interaction.reply({content: `Message set.`});
+            interaction.reply({content: `Message set to:
+${configuration.message}`});
             return this.updateCaptcha(interaction,configuration);
         }
 
@@ -174,7 +175,8 @@ class setup extends require("../classes/Command"){
             const description = interaction.options.get("description").value;
             configuration.description = description;
             bot.db.set(interaction.guild.id, description, "description");
-            interaction.reply({content: `Description set.`});
+            interaction.reply({content: `Description set to:
+${configuration.description}`});
             return this.updateCaptcha(interaction,configuration);
         }
 
