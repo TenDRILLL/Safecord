@@ -6,6 +6,7 @@ class CaptchaConfig {
     private readonly description: string;
     private readonly language: string;
     private readonly enabled: boolean;
+    private readonly post: string;
 
     constructor(configObject){
         this.role = configObject.role ?? null;
@@ -14,6 +15,7 @@ class CaptchaConfig {
         this.description = configObject.description ?? "Hello and welcome to our server! Please complete the captcha below.";
         this.language = configObject.language ?? "en-us";
         this.enabled = configObject.enabled ?? true;
+        this.post = configObject.post ?? null;
     }
 }
 

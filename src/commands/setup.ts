@@ -107,7 +107,7 @@ class setup extends require("../classes/Command"){
         * */
     }
 
-    cmdRun(interaction,bot){
+    async cmdRun(interaction,bot){
         let configuration;
 
         if(!(bot.db.has(interaction.guild.id))){
@@ -118,6 +118,12 @@ class setup extends require("../classes/Command"){
         }
 
         if(interaction.options.get("channel")){
+            if(configuration.post){
+                const msg = await interaction.guild.channels.cache.get(configuration.post.split("/")[1])
+                    .messages.fetch({message: configuration.post.split("/")[2], force: true}).catch(e => console.log(e));
+                if(msg) return interaction.reply({content: `You already have a Captcha post [here](<https://discord.com/channels/${configuration.post}>).`});
+                bot.db.set(interaction.guild.id, null, "post");
+            }
             if(configuration.role === null) return interaction.reply({content: "❌ ERROR: `No role set.`"});
             if(!(interaction.options.get("channel").channel.isText())) return interaction.reply({content: `❌ ERROR: \`${interaction.options.get("channel").channel.name} is not a text channel.\``});
             const button = new ButtonBuilder()
@@ -140,8 +146,10 @@ class setup extends require("../classes/Command"){
                 components: [
                     new ActionRowBuilder().setComponents([button])
                 ]
-            }).then(()=>{
+            }).then((sent)=>{
                 interaction.reply({content: "Sent."});
+                const post = `${interaction.guild.id}/${sent.channel.id}/${sent.id}`;
+                bot.db.set(interaction.guild.id, post, "post");
             });
         }
 
@@ -156,6 +164,12 @@ class setup extends require("../classes/Command"){
             const message = interaction.options.get("message").value;
             bot.db.set(interaction.guild.id, message, "message");
             return interaction.reply({content: `Message set.`});
+        }
+
+        if(interaction.options.get("description")){
+            const description = interaction.options.get("description").value;
+            bot.db.set(interaction.guild.id, description, "description");
+            return interaction.reply({content: `Description set.`});
         }
 
         if(interaction.options.get("enabled")){
