@@ -1,9 +1,7 @@
 const CModal = require("../classes/CaptchaModal");
 class Captcha extends require("../classes/Command"){
     constructor() {
-        super("captcha",{
-
-        });
+        super("captcha");
     }
     btnRun(interaction,bot){
         const config = bot.db.get(interaction.guild.id);
