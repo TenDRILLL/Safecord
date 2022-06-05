@@ -1,12 +1,36 @@
+import {
+    ModalBuilder,
+    ActionRowBuilder,
+    ModalActionRowComponentBuilder,
+    TextInputBuilder,
+    TextInputStyle
+} from "discord.js";
+
 class CaptchaModal {
-    /*TODO: Plan what values are required, should have:
-    * CODE
-    * DESCRIPTION
-    * ??
-    */
+    private readonly code: string;
+    private readonly modal: ModalBuilder;
 
-    constructor(){
+    constructor(description){
+        this.code = Math.random().toString(36).replace(/[^a-z]+/g, '').substring(0, 5);
+        this.modal = new ModalBuilder()
+            .setCustomId(`captcha-${this.code}`)
+            .setTitle(description)
+            .setComponents([
+                new ActionRowBuilder<ModalActionRowComponentBuilder>().setComponents([
+                    new TextInputBuilder()
+                        .setCustomId(`code`)
+                        .setRequired(true)
+                        .setMinLength(5)
+                        .setMaxLength(5)
+                        .setStyle(TextInputStyle.Short)
+                        .setPlaceholder(this.code)
+                        .setLabel(`Code: ${this.code}`)
+                ])
+            ]);
+    }
 
+    getModal(){
+        return this.modal;
     }
 }
 
