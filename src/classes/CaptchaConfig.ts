@@ -4,7 +4,7 @@ class CaptchaConfig {
     private readonly message: string;
     private readonly description: string;
     private readonly language: string;
-    private readonly enabled: boolean;
+    private readonly disable: boolean;
     private readonly post: string;
 
     constructor(configObject){
@@ -13,7 +13,7 @@ class CaptchaConfig {
         this.message = configObject.message ?? "Click the button to open server verification window.";
         this.description = configObject.description ?? "Hello and welcome to our server! Please complete the captcha below.";
         this.language = configObject.language ?? "en-us";
-        this.enabled = configObject.enabled ?? true;
+        this.disable = configObject.disable ?? false;
         this.post = configObject.post ?? null;
     }
 }

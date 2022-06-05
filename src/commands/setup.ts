@@ -57,13 +57,13 @@ class setup extends require("../classes/Command"){
                             }
                         ]
                     }, {
-                        name: "enabled",
-                        description: "Enable or disable the Button that opens the Captcha Modal.",
+                        name: "disable",
+                        description: "Disable the Button that opens the Captcha Modal.",
                         type: ApplicationCommandOptionType.Subcommand,
                         options: [
                             {
-                                name: "enabled",
-                                description: "Enable the button?",
+                                name: "disable",
+                                description: "Disable the button?",
                                 type: ApplicationCommandOptionType.Boolean,
                                 required: true
                             }
@@ -89,7 +89,7 @@ class setup extends require("../classes/Command"){
         *  -> button STRING:name STRING:color:AUTOCOMPLETE, STRING:emoji:OPTIONAL
         *  -> message STRING:message
         *  -> locale STRING:set:AUTOCOMPLETE
-        *  -> enabled BOOLEAN:enabled
+        *  -> disable BOOLEAN:disable
         *  -> send CHANNEL:channel
         * */
     }
@@ -158,12 +158,12 @@ ${configuration.message}`});
             return this.updateCaptcha(interaction,configuration);
         }
 
-        if(interaction.options.get("enabled")){
-            const enabled = interaction.options.get("enabled").value;
-            if(configuration.enabled === enabled) return interaction.reply({content: `❌ ERROR: \`Button is already set to ${enabled ? "enabled" : "disabled"}\`.`});
-            configuration.enabled = enabled;
-            bot.db.set(interaction.guild.id, enabled, "enabled");
-            interaction.reply({content: `Button ${enabled ? "enabled" : "disabled"}.`});
+        if(interaction.options.get("disable")){
+            const disable = interaction.options.get("disable").value;
+            if(configuration.disable === disable) return interaction.reply({content: `❌ ERROR: \`Button is already set to ${disable ? "disabled" : "enabled"}\`.`});
+            configuration.disable = disable;
+            bot.db.set(interaction.guild.id, disable, "disable");
+            interaction.reply({content: `Button ${disable ? "disabled" : "enabled"}.`});
             return this.updateCaptcha(interaction,configuration);
         }
 
@@ -235,7 +235,8 @@ Emoji: ${emoji}` : ""}`});
             const button = new ButtonBuilder()
                 .setLabel(configuration.button.name)
                 .setCustomId(`captcha-${interaction.guild.id}`)
-                .setStyle(this.resolveStyle(configuration.button.color));
+                .setStyle(this.resolveStyle(configuration.button.color))
+                .setDisabled(configuration.button.enabled);
             if(configuration.button.emoji !== null){
                 let emoji = configuration.button.emoji;
                 if(/(\d{17,19})/.test(emoji)){
