@@ -57,18 +57,6 @@ class setup extends require("../classes/Command"){
                             }
                         ]
                     }, {
-                        name: "description",
-                        description: "Short description that will be displayed inside the Captcha Modal.",
-                        type: ApplicationCommandOptionType.Subcommand,
-                        options: [
-                            {
-                                name: "description",
-                                description: "Description to be displayed.",
-                                type: ApplicationCommandOptionType.String,
-                                required: true
-                            }
-                        ]
-                    }, {
                         name: "enabled",
                         description: "Enable or disable the Button that opens the Captcha Modal.",
                         type: ApplicationCommandOptionType.Subcommand,
@@ -100,7 +88,6 @@ class setup extends require("../classes/Command"){
         *  -> role ROLE:role
         *  -> button STRING:name STRING:color:AUTOCOMPLETE, STRING:emoji:OPTIONAL
         *  -> message STRING:message
-        *  -> description STRING:description
         *  -> locale STRING:set:AUTOCOMPLETE
         *  -> enabled BOOLEAN:enabled
         *  -> send CHANNEL:channel
@@ -168,15 +155,6 @@ class setup extends require("../classes/Command"){
             bot.db.set(interaction.guild.id, message, "message");
             interaction.reply({content: `Message set to:
 ${configuration.message}`});
-            return this.updateCaptcha(interaction,configuration);
-        }
-
-        if(interaction.options.get("description")){
-            const description = interaction.options.get("description").value;
-            configuration.description = description;
-            bot.db.set(interaction.guild.id, description, "description");
-            interaction.reply({content: `Description set to:
-${configuration.description}`});
             return this.updateCaptcha(interaction,configuration);
         }
 
