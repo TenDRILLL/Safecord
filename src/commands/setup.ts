@@ -236,7 +236,7 @@ Emoji: ${emoji}` : ""}`});
                 .setLabel(configuration.button.name)
                 .setCustomId(`captcha-${interaction.guild.id}`)
                 .setStyle(this.resolveStyle(configuration.button.color))
-                .setDisabled(configuration.button.enabled);
+                .setDisabled(configuration.disable);
             if(configuration.button.emoji !== null){
                 let emoji = configuration.button.emoji;
                 if(/(\d{17,19})/.test(emoji)){
