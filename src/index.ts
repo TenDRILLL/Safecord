@@ -5,7 +5,8 @@ const bot = new Client({
         GatewayIntentBits.Guilds
     ]
 });
-const { token } = require("./config.json");
+// @ts-ignore
+const token = process.env.token ?? require("./config.json");
 bot.db = new Enmap(
     {
         name: "configurations"
