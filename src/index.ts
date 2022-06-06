@@ -16,5 +16,6 @@ require("./automation/createEvents").exec(bot);
 
 bot.login(token)
     .catch((e)=>{
-        console.error(e);
+        console.log(e);
+        process.exit();
     });
