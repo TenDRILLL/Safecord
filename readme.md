@@ -13,11 +13,9 @@ Checklist:
 - - [x] Allow sending
 - [ ] Add translations and automatically apply it based off of locale.
 
-Example config.json file:
+Example .env file:
 ```json
-{
-  "token": "thisisnotavalidtokenbruh.please.gogenerateyourowntokenthankyouverymuch",
-  "applicationId": "123456789012345678"
-}
+token="thisisnotavalidtokenbruh.please.gogenerateyourowntokenthankyouverymuch"
+applicationId="123456789012345678"
 ```
 Obviously replace the values with your own, got from a New Application, which you can create in the [Discord Developer Portal](https://discord.com/developers/applications).
