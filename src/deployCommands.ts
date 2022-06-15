@@ -3,10 +3,9 @@ import { Routes } from 'discord-api-types/v9';
 import { readdirSync } from "fs";
 import { ApplicationCommandData } from "discord.js";
 import { Command } from "./classes/Command";
-import * as config from "./config.json";
 
-const token = process.env.token ?? config.token;
-const applicationId = process.env.applicationId ?? config.applicationId;
+const token = process.env.token;
+const applicationId = process.env.applicationId;
 const commands: ApplicationCommandData[] = [];
 
 readdirSync("./commands").forEach(f => {
@@ -16,7 +15,7 @@ readdirSync("./commands").forEach(f => {
     commands.push(js.getSlashObject());
 });
 
-const rest = new REST({ version: '9' }).setToken(token);
+const rest = new REST({ version: '9' }).setToken(token as string);
 
 rest.put(Routes.applicationCommands(applicationId as string), { body: commands })
     .then(() => console.log('Successfully registered application commands.'))
