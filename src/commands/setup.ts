@@ -1,7 +1,8 @@
 const { ApplicationCommandOptionType, ActionRowBuilder,
     ButtonBuilder, ButtonStyle } = require("discord.js");
 const CConfig = require("../classes/CaptchaConfig");
-class setup extends require("../classes/Command"){
+import { Command } from "../classes/Command";
+class setup extends Command{
     constructor(){
         super(
             "setup",

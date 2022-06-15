@@ -1,7 +1,8 @@
 const CModal = require("../classes/CaptchaModal");
-class Captcha extends require("../classes/Command"){
+import { Command } from "../classes/Command";
+class Captcha extends Command{
     constructor() {
-        super("captcha");
+        super("captcha",undefined);
     }
     btnRun(interaction,bot){
         const config = bot.db.get(interaction.guild.id);
