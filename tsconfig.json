@@ -1,13 +1,14 @@
 {
   "compilerOptions": {
     "outDir": "./build",
-    "allowJs": true,
     "target": "esnext",
     "lib": ["ES5"],
     "strictNullChecks": true,
     "moduleResolution": "Node",
     "allowSyntheticDefaultImports": true,
-    "module": "commonjs"
+    "module": "commonjs",
+    "resolveJsonModule": true,
+    "esModuleInterop": true
   },
   "include": ["src"]
 }
