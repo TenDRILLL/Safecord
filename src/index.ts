@@ -1,13 +1,14 @@
-const { Client, GatewayIntentBits } = require("discord.js");
-const Enmap = require("enmap");
+import { Client, GatewayIntentBits } from "discord.js";
+import Enmap from "enmap";
+import { token } from "./config.json";
 const bot = new Client({
     intents: [
         GatewayIntentBits.Guilds
     ]
 });
-// @ts-ignore
-const token = process.env.token ?? require("./config.json");
-bot.db = new Enmap(
+
+const botToken = process.env.token ?? token;
+bot["db"] = new Enmap(
     {
         name: "configurations"
     }
@@ -15,7 +16,7 @@ bot.db = new Enmap(
 
 require("./automation/createEvents").exec(bot);
 
-bot.login(token)
+bot.login(botToken)
     .catch((e)=>{
         console.log(e);
         process.exit();
