@@ -9,9 +9,9 @@ Checklist:
 - - [x] Define role to be given
 - - [x] Define message to be sent with button
 - - [x] Define Button text & color
-- - [x] ~~Define Language~~ -> Will be made automatic.
 - - [x] Enable/Disable
 - - [x] Allow sending
+- [ ] Add translations and automatically apply it based off of locale.
 
 Example config.json file:
 ```json
