@@ -12,7 +12,7 @@ class Captcha extends Command{
     msRun(interaction,bot){
         const givenCode = interaction.fields.getTextInputValue("code");
         const correctCode = interaction.customId.split("-")[1];
-        if(givenCode === correctCode){
+        if(givenCode.toLowerCase() === correctCode){
             const configuration = bot.db.get(interaction.guild.id);
             interaction.member.roles.add(configuration.role).then(()=>{
                 interaction.reply({content: "Verification successful.", ephemeral: true});
