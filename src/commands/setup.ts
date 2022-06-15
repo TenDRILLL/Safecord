@@ -146,7 +146,7 @@ class setup extends require("../classes/Command"){
             configuration.role = role.id;
             bot.db.set(interaction.guild.id, role.id, "role");
             interaction.reply({content: `Role set to: ${role.name}.`});
-            return this.updateCaptcha(interaction,configuration);
+            return this.updateCaptcha(interaction,configuration,bot);
         }
 
         if(interaction.options.get("message")){
@@ -155,7 +155,7 @@ class setup extends require("../classes/Command"){
             bot.db.set(interaction.guild.id, message, "message");
             interaction.reply({content: `Message set to:
 ${configuration.message}`});
-            return this.updateCaptcha(interaction,configuration);
+            return this.updateCaptcha(interaction,configuration,bot);
         }
 
         if(interaction.options.get("disable")){
@@ -164,7 +164,7 @@ ${configuration.message}`});
             configuration.disable = disable;
             bot.db.set(interaction.guild.id, disable, "disable");
             interaction.reply({content: `Button ${disable ? "disabled" : "enabled"}.`});
-            return this.updateCaptcha(interaction,configuration);
+            return this.updateCaptcha(interaction,configuration,bot);
         }
 
         if(interaction.options.getSubcommand() === "button"){
@@ -201,7 +201,7 @@ ${configuration.message}`});
 Name: ${name}
 Color: ${color}${emoji !== "" ? `
 Emoji: ${emoji}` : ""}`});
-            return this.updateCaptcha(interaction,configuration);
+            return this.updateCaptcha(interaction,configuration,bot);
         }
     }
 
@@ -228,7 +228,7 @@ Emoji: ${emoji}` : ""}`});
         }
     }
 
-    updateCaptcha(interaction,configuration){
+    updateCaptcha(interaction,configuration,bot){
         if(configuration.post === null) return;
         interaction.guild.channels.cache.get(configuration.post.split("/")[1])
             .messages.fetch({message: configuration.post.split("/")[2], force: true}).then(message => {
