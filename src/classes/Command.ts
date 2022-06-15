@@ -1,5 +1,5 @@
 import { ApplicationCommandData } from "discord.js";
-class Command {
+export class Command {
     private readonly name: string;
     private readonly slashObject: ApplicationCommandData;
 
@@ -17,5 +17,3 @@ class Command {
     acRun(interaction, bot){ return console.log(`${this.name} ran, but acRun method wasn't overridden.`); }
     msRun(interaction, bot){ return console.log(`${this.name} ran, but msRun method wasn't overridden.`); }
 }
-
-module.exports = Command;
