@@ -1,5 +1,5 @@
 {
-  "name": "captcha-bot",
+  "name": "safecord",
   "description": "A Discord Bot that allows you to give a GuildMember a Role after they complete a ModalInteraction \"CAPTCHA\".",
   "version": "1.0.0",
   "main": "src/index.ts",
@@ -15,12 +15,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TenDRILLL/CAPTCHA-Bot.git"
+    "url": "git+https://github.com/TenDRILLL/Safecord.git"
   },
   "author": "Ten#0010",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/TenDRILLL/CAPTCHA-Bot/issues"
+    "url": "https://github.com/TenDRILLL/Safecord/issues"
   },
-  "homepage": "https://github.com/TenDRILLL/CAPTCHA-Bot#readme"
+  "homepage": "https://github.com/TenDRILLL/Safecord#readme"
 }
