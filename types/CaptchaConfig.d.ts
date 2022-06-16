@@ -2,11 +2,13 @@ import {ButtonStyle} from "discord.js";
 
 export default class CaptchaConfig {
     role: string;
-    button: object;
+    button: {
+        name: string;
+        color: string;
+        emoji: string;
+    };
     message: string;
     description: string;
-    language: string;
-    enabled: boolean;
-
-    resolveStyle(): ButtonStyle;
+    post: string;
+    disable: boolean;
 }

@@ -1,6 +1,7 @@
 import {readdirSync} from "fs";
 import { Command } from "../classes/Command";
 import { Event } from "../classes/Event";
+import * as Database from "../automation/databaseManager";
 class Ready extends Event{
     constructor() {
         super("ready",true);
@@ -18,8 +19,16 @@ class Ready extends Event{
         });
         console.log("\nLoading Guild Configurations...");
         bot.guilds.fetch().then(() => {
-            bot.db.defer.then(()=>{
-                console.log(`Captcha-Bot operational, observing ${bot.db.size} configurations in ${bot.guilds.cache.size} guilds.`);
+            Database.startConnection().then(()=>{
+                bot.guilds.cache.forEach(guild =>{
+                    Database.getConfiguration(guild.id)
+                        .then(config => {
+                            bot.db.set(guild.id,config);
+                            console.log(`Configuration for ${guild.id} loaded.`);
+                        }).catch(e => {
+                        console.log(e);
+                    });
+                });
             });
         });
     }

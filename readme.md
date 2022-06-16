@@ -17,7 +17,7 @@ Example .env file:
 ```dotenv
 token="thisisnotavalidtokenbruh.please.gogenerateyourowntokenthankyouverymuch"
 applicationId="123456789012345678"
-db_host="example.xyz:3306"
+db_host="example.xyz"
 db_user="safecord"
 db_password="Passw0rd!"
 db_database="database_name_here"

@@ -4,8 +4,9 @@ import {
     ButtonBuilder,
     ButtonStyle
 } from "discord.js";
-import { CaptchaConfig } from "../classes/CaptchaConfig";
+import { getConfiguration, saveConfiguration } from "../automation/databaseManager";
 import { Command } from "../classes/Command";
+import CaptchaConfig from "../../types/CaptchaConfig";
 class setup extends Command{
     constructor(){
         super(
@@ -100,29 +101,23 @@ class setup extends Command{
     }
 
     async cmdRun(interaction,bot){
-        let configuration;
-
-        if(!(bot.db.has(interaction.guild.id))){
-            configuration = new CaptchaConfig({});
-            bot.db.set(interaction.guild.id, configuration);
-        } else {
-            configuration = bot.db.get(interaction.guild.id);
-        }
+        let configuration: CaptchaConfig = await getConfiguration(interaction.id);
 
         if(interaction.options.get("channel")){
             if(configuration.post){
                 const msg = await interaction.guild.channels.cache.get(configuration.post.split("/")[1])
                     .messages.fetch({message: configuration.post.split("/")[2], force: true}).catch(e => console.log(e));
                 if(msg) return interaction.reply({content: `You already have a Captcha post [here](<https://discord.com/channels/${configuration.post}>).`});
-                bot.db.set(interaction.guild.id, null, "post");
+                configuration.post = "null";
+                return saveConfiguration(interaction.guild.id, configuration);
             }
-            if(configuration.role === null) return interaction.reply({content: "❌ ERROR: `No role set.`"});
+            if(configuration.role === "null") return interaction.reply({content: "❌ ERROR: `No role set.`"});
             if(!(interaction.options.get("channel").channel.isText())) return interaction.reply({content: `❌ ERROR: \`${interaction.options.get("channel").channel.name} is not a text channel.\``});
             const button = new ButtonBuilder()
                 .setLabel(configuration.button.name)
                 .setCustomId(`captcha-${interaction.guild.id}`)
                 .setStyle(this.resolveStyle(configuration.button.color));
-            if(configuration.button.emoji !== null){
+            if(configuration.button.emoji !== "null"){
                 let emoji = configuration.button.emoji;
                 if(/(\d{17,19})/.test(emoji)){
                     emoji = bot.emojis.resolve(emoji);
@@ -140,8 +135,8 @@ class setup extends Command{
                 ]
             }).then((sent)=>{
                 interaction.reply({content: "Sent."});
-                const post = `${interaction.guild.id}/${sent.channel.id}/${sent.id}`;
-                bot.db.set(interaction.guild.id, post, "post");
+                configuration.post = `${interaction.guild.id}/${sent.channel.id}/${sent.id}`;
+                return saveConfiguration(interaction.guild.id, configuration);
             });
         }
 
@@ -149,7 +144,7 @@ class setup extends Command{
             const role = interaction.options.get("role").role;
             if(configuration.role === role.id) return interaction.reply({content: "❌ ERROR: `New role cannot be the same as the old role.`"});
             configuration.role = role.id;
-            bot.db.set(interaction.guild.id, role.id, "role");
+            saveConfiguration(interaction.guild.id, configuration);
             interaction.reply({content: `Role set to: ${role.name}.`});
             return this.updateCaptcha(interaction,configuration,bot);
         }
@@ -157,7 +152,7 @@ class setup extends Command{
         if(interaction.options.get("message")){
             const message = interaction.options.get("message").value;
             configuration.message = message;
-            bot.db.set(interaction.guild.id, message, "message");
+            saveConfiguration(interaction.guild.id, configuration);
             interaction.reply({content: `Message set to:
 ${configuration.message}`});
             return this.updateCaptcha(interaction,configuration,bot);
@@ -167,7 +162,7 @@ ${configuration.message}`});
             const disable = interaction.options.get("disable").value;
             if(configuration.disable === disable) return interaction.reply({content: `❌ ERROR: \`Button is already set to ${disable ? "disabled" : "enabled"}\`.`});
             configuration.disable = disable;
-            bot.db.set(interaction.guild.id, disable, "disable");
+            saveConfiguration(interaction.guild.id, configuration);
             interaction.reply({content: `Button ${disable ? "disabled" : "enabled"}.`});
             return this.updateCaptcha(interaction,configuration,bot);
         }
@@ -194,14 +189,14 @@ ${configuration.message}`});
                     return interaction.reply({content: `❌ ERROR: \`${emoji} is not a valid Emoji.\``});
                 }
             } else if(configuration.button.emoji){
-                configuration.button.emoji = null;
+                configuration.button.emoji = "null";
             }
             if(!(["Gray", "Green", "Red", "Blurple"].includes(color))){
                 return interaction.reply({content: `❌ ERROR: \`${color} is not a valid color.\``});
             }
             configuration.button.name = name;
             configuration.button.color = color;
-            bot.db.set(interaction.guild.id,configuration.button, "button");
+            saveConfiguration(interaction.guild.id, configuration);
             interaction.reply({content: `Following properties were set:
 Name: ${name}
 Color: ${color}${emoji !== "" ? `
@@ -234,7 +229,7 @@ Emoji: ${emoji}` : ""}`});
     }
 
     updateCaptcha(interaction,configuration,bot){
-        if(configuration.post === null) return;
+        if(configuration.post === "null") return;
         interaction.guild.channels.cache.get(configuration.post.split("/")[1])
             .messages.fetch({message: configuration.post.split("/")[2], force: true}).then(message => {
             const button = new ButtonBuilder()
@@ -261,7 +256,7 @@ Emoji: ${emoji}` : ""}`});
             });
         }).catch(() => {
             console.log("Post information invalid, resetting it.");
-            bot.db.set(interaction.guild.id, null, "post");
+            bot.db.set(interaction.guild.id, "null", "post");
         });
     }
 }

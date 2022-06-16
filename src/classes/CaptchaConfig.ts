@@ -7,11 +7,11 @@ export class CaptchaConfig {
     private readonly post: string;
 
     constructor(configObject){
-        this.role = configObject.role ?? null;
-        this.button = configObject.button ?? {name: "Captcha", color: "PRIMARY", emoji: null};
+        this.role = configObject.role ?? "null";
+        this.button = configObject.button ?? {name: "Captcha", color: "PRIMARY", emoji: "null"};
         this.message = configObject.message ?? "Click the button to open server verification window.";
         this.description = configObject.description ?? "Please complete the captcha below.";
         this.disable = configObject.disable ?? false;
-        this.post = configObject.post ?? null;
+        this.post = configObject.post ?? "null";
     }
 }
