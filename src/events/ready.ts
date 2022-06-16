@@ -16,8 +16,6 @@ class Ready extends Event{
             bot.commands.set(js.getName(),js);
             console.log(`${js.getName()} loaded`);
         });
-        console.log("\nLoading languages...");
-        require("../automation/translator").loadLanguages();
         console.log("\nLoading Guild Configurations...");
         bot.guilds.fetch().then(() => {
             bot.db.defer.then(()=>{

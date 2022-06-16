@@ -3,7 +3,6 @@ export class CaptchaConfig {
     private readonly button: object;
     private readonly message: string;
     private readonly description: string;
-    private readonly language: string;
     private readonly disable: boolean;
     private readonly post: string;
 
