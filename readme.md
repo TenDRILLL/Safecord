@@ -14,8 +14,12 @@ Checklist:
 - [ ] Add translations and automatically apply it based off of locale.
 
 Example .env file:
-```json
+```dotenv
 token="thisisnotavalidtokenbruh.please.gogenerateyourowntokenthankyouverymuch"
 applicationId="123456789012345678"
+db_host="example.xyz:3306"
+db_user="safecord"
+db_password="Passw0rd!"
+db_database="database_name_here"
 ```
 Obviously replace the values with your own, got from a New Application, which you can create in the [Discord Developer Portal](https://discord.com/developers/applications).
