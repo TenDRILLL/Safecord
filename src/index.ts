@@ -1,4 +1,5 @@
 import { Client, GatewayIntentBits } from "discord.js";
+import * as createEvents from "./automation/createEvents";
 import Enmap from "enmap";
 const bot = new Client({
     intents: [
@@ -13,7 +14,7 @@ bot["db"] = new Enmap(
     }
 );
 
-require("./automation/createEvents").exec(bot);
+createEvents.exec(bot);
 
 bot.login(botToken)
     .catch((e)=>{
