@@ -1,4 +1,5 @@
-class InteractionCreate extends require("../classes/Event"){
+import { Event } from "../classes/Event";
+class InteractionCreate extends Event{
     constructor() {
         super("interactionCreate",false);
     }

@@ -1,7 +1,7 @@
+import { readdirSync } from "node:fs";
 const languages = new Map();
 
 module.exports.loadLanguages = () => {
-    const { readdirSync } = require("node:fs");
     readdirSync("./automation/languages").forEach(async language => {
         languages.set(language.split(".")[0], require(`./languages/${language}`));
     });

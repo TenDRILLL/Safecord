@@ -1,4 +1,4 @@
-class Event {
+export class Event {
     private readonly name: string;
     private readonly runOnce: boolean;
 
@@ -8,7 +8,5 @@ class Event {
     }
     getName(){return this.name;}
     isRunOnce(){return this.runOnce;}
-    exec(){return console.log(`${this.name} ran, but exec method wasn't overridden.`);}
+    exec(...bot){return console.log(`${this.name} ran, but exec method wasn't overridden.`);}
 }
-
-module.exports = Event;

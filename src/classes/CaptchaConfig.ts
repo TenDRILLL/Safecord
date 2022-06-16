@@ -1,4 +1,4 @@
-class CaptchaConfig {
+export class CaptchaConfig {
     private readonly role: string;
     private readonly button: object;
     private readonly message: string;
@@ -12,10 +12,7 @@ class CaptchaConfig {
         this.button = configObject.button ?? {name: "Captcha", color: "PRIMARY", emoji: null};
         this.message = configObject.message ?? "Click the button to open server verification window.";
         this.description = configObject.description ?? "Please complete the captcha below.";
-        this.language = configObject.language ?? "en-us";
         this.disable = configObject.disable ?? false;
         this.post = configObject.post ?? null;
     }
 }
-
-module.exports = CaptchaConfig;

@@ -6,7 +6,7 @@ import {
     TextInputStyle
 } from "discord.js";
 
-class CaptchaModal {
+export class CaptchaModal {
     private readonly code: string;
     private readonly modal: ModalBuilder;
 
@@ -33,5 +33,3 @@ class CaptchaModal {
         return this.modal;
     }
 }
-
-module.exports = CaptchaModal;

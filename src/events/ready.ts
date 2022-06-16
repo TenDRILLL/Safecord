@@ -1,7 +1,7 @@
 import {readdirSync} from "fs";
 import { Command } from "../classes/Command";
-
-class Ready extends require("../classes/Event"){
+import { Event } from "../classes/Event";
+class Ready extends Event{
     constructor() {
         super("ready",true);
     }

@@ -1,6 +1,10 @@
-const { ApplicationCommandOptionType, ActionRowBuilder,
-    ButtonBuilder, ButtonStyle } = require("discord.js");
-const CConfig = require("../classes/CaptchaConfig");
+import {
+    ApplicationCommandOptionType,
+    ActionRowBuilder,
+    ButtonBuilder,
+    ButtonStyle
+} from "discord.js";
+import { CaptchaConfig } from "../classes/CaptchaConfig";
 import { Command } from "../classes/Command";
 class setup extends Command{
     constructor(){
@@ -99,7 +103,7 @@ class setup extends Command{
         let configuration;
 
         if(!(bot.db.has(interaction.guild.id))){
-            configuration = new CConfig({});
+            configuration = new CaptchaConfig({});
             bot.db.set(interaction.guild.id, configuration);
         } else {
             configuration = bot.db.get(interaction.guild.id);
