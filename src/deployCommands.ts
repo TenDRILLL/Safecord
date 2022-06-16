@@ -1,6 +1,6 @@
 import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v9';
-import { readdirSync } from "fs";
+import { readdirSync } from "node:fs";
 import { ApplicationCommandData } from "discord.js";
 import { Command } from "./classes/Command";
 
