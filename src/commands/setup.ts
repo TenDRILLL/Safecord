@@ -101,10 +101,10 @@ class setup extends Command{
     }
 
     async cmdRun(interaction,bot){
-        let configuration: CaptchaConfig = await getConfiguration(interaction.id);
+        let configuration = await getConfiguration(interaction.id) as CaptchaConfig;
 
         if(interaction.options.get("channel")){
-            if(configuration.post){
+            if(configuration.post !== "null"){
                 const msg = await interaction.guild.channels.cache.get(configuration.post.split("/")[1])
                     .messages.fetch({message: configuration.post.split("/")[2], force: true}).catch(e => console.log(e));
                 if(msg) return interaction.reply({content: `You already have a Captcha post [here](<https://discord.com/channels/${configuration.post}>).`});
