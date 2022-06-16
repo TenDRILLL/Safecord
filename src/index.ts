@@ -1,5 +1,6 @@
 import { Client, GatewayIntentBits } from "discord.js";
 import * as createEvents from "./automation/createEvents";
+import 'dotenv/config';
 import Enmap from "enmap";
 const bot = new Client({
     intents: [
@@ -7,7 +8,6 @@ const bot = new Client({
     ]
 });
 
-const botToken = process.env.token;
 bot["db"] = new Enmap(
     {
         name: "configurations"
@@ -16,7 +16,7 @@ bot["db"] = new Enmap(
 
 createEvents.exec(bot);
 
-bot.login(botToken)
+bot.login(process.env.token)
     .catch((e)=>{
         console.log(e);
         process.exit();

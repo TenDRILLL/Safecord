@@ -3,6 +3,7 @@ import { Routes } from 'discord-api-types/v9';
 import { readdirSync } from "node:fs";
 import { ApplicationCommandData } from "discord.js";
 import { Command } from "./classes/Command";
+import 'dotenv/config';
 
 const token = process.env.token;
 const applicationId = process.env.applicationId;
