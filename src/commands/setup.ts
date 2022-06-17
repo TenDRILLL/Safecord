@@ -4,7 +4,7 @@ import {
     ButtonBuilder,
     ButtonStyle
 } from "discord.js";
-import { getConfiguration, saveConfiguration } from "../automation/databaseManager";
+import { saveConfiguration } from "../automation/databaseManager";
 import { Command } from "../classes/Command";
 import CaptchaConfig from "../../types/CaptchaConfig";
 class setup extends Command{
@@ -101,7 +101,7 @@ class setup extends Command{
     }
 
     async cmdRun(interaction,bot){
-        let configuration = await getConfiguration(interaction.guild.id) as CaptchaConfig;
+        let configuration = bot.db.get(interaction.guild.id) as CaptchaConfig;
 
         if(interaction.options.get("channel")){
             if(configuration.post !== "null"){
@@ -149,8 +149,7 @@ class setup extends Command{
         }
 
         if(interaction.options.get("message")){
-            const message = interaction.options.get("message").value;
-            configuration.message = message;
+            configuration.message = interaction.options.get("message").value;
             interaction.reply({content: `Message set to:
 ${configuration.message}`});
             return this.updateCaptcha(interaction,configuration,bot);
