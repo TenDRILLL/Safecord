@@ -75,7 +75,7 @@ button = "${JSON.stringify(config.button).split("\"").join("'")}", \
 message = "${config.message}", \
 description = "${config.description}", \
 disable = ${config.disable}, \
-post = "${config.post}", \
+post = "${config.post}" \
 WHERE guildID = "${id}"`,
             (error, results, fields)=>{
                 if(error) rej(error);
