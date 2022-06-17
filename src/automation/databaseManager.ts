@@ -76,7 +76,7 @@ message = "${config.message}", \
 description = "${config.description}", \
 disable = ${config.disable}, \
 post = "${config.post}", \
-WHERE guildID == "${id}"`,
+WHERE guildID = "${id}"`,
             (error, results, fields)=>{
                 if(error) rej(error);
                 res(results);
