@@ -168,7 +168,7 @@ ${configuration.message}`});
             let color = interaction.options.get("color").value;
             let emoji = "";
             if(interaction.options.get("emoji")){
-                emoji = interaction.options.get("emoji").value;
+                emoji = interaction.options.get("emoji").value.trim();
                 const discordEmojiRgx = /<a?:(\w{2,32}):(\d{17,19})>/;
                 const unicodeEmojiRgx = /(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])/;
                 if(discordEmojiRgx.test(emoji)){
