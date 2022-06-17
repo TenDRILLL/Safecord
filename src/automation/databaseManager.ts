@@ -58,6 +58,7 @@ export function getConfiguration(id){
                     const config: CaptchaConfig = results[0];
                     results[0].button = JSON.parse(results[0].button.split("'").join("\""));
                     results[0].disable = results[0].disable !== 0;
+                    console.log(`${id} loaded from the database.`);
                     res(config);
                 }
             }
@@ -79,6 +80,7 @@ post = "${config.post}" \
 WHERE guildID = "${id}"`,
             (error, results, fields)=>{
                 if(error) rej(error);
+                console.log(`Configuration saved for ${id}`);
                 res(results);
             }
         );

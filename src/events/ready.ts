@@ -24,7 +24,6 @@ class Ready extends Event{
                     Database.getConfiguration(guild.id)
                         .then(config => {
                             bot.db.set(guild.id,config);
-                            console.log(`Configuration for ${guild.id} loaded.`);
                         }).catch(e => {
                         console.log(e);
                     });
