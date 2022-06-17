@@ -120,9 +120,9 @@ class setup extends Command{
             if(configuration.button.emoji !== "null"){
                 let emoji = configuration.button.emoji;
                 if(/(\d{17,19})/.test(emoji)){
-                    emoji = bot.emojis.resolve(emoji);
-                    if(emoji){
-                        button.setEmoji(emoji);
+                    let guildemoji = bot.emojis.resolve(emoji);
+                    if(guildemoji){
+                        button.setEmoji({animated: guildemoji.animated ?? false, id: guildemoji.id, name: guildemoji.name});
                     }
                 } else {
                     button.setEmoji(configuration.button.emoji);
@@ -144,12 +144,14 @@ class setup extends Command{
             const role = interaction.options.get("role").role;
             if(configuration.role === role.id) return interaction.reply({content: "❌ ERROR: `New role cannot be the same as the old role.`"});
             configuration.role = role.id;
+            saveConfiguration(interaction.guild.id, configuration, bot);
             interaction.reply({content: `Role set to: ${role.name}.`});
             return this.updateCaptcha(interaction,configuration,bot);
         }
 
         if(interaction.options.get("message")){
             configuration.message = interaction.options.get("message").value;
+            saveConfiguration(interaction.guild.id, configuration, bot);
             interaction.reply({content: `Message set to:
 ${configuration.message}`});
             return this.updateCaptcha(interaction,configuration,bot);
@@ -159,6 +161,7 @@ ${configuration.message}`});
             const disable = interaction.options.get("disable").value;
             if(configuration.disable === disable) return interaction.reply({content: `❌ ERROR: \`Button is already set to ${disable ? "disabled" : "enabled"}\`.`});
             configuration.disable = disable;
+            saveConfiguration(interaction.guild.id, configuration, bot);
             interaction.reply({content: `Button ${disable ? "disabled" : "enabled"}.`});
             return this.updateCaptcha(interaction,configuration,bot);
         }
@@ -192,6 +195,7 @@ ${configuration.message}`});
             }
             configuration.button.name = name;
             configuration.button.color = color;
+            saveConfiguration(interaction.guild.id, configuration, bot);
             interaction.reply({content: `Following properties were set:
 Name: ${name}
 Color: ${color}${emoji !== "" ? `
@@ -225,7 +229,6 @@ Emoji: ${emoji}` : ""}`});
 
     updateCaptcha(interaction,configuration,bot){
         if(configuration.post === "null") return;
-        saveConfiguration(interaction.guild.id, configuration, bot);
         interaction.guild.channels.cache.get(configuration.post.split("/")[1])
             .messages.fetch({message: configuration.post.split("/")[2], force: true}).then(message => {
             const button = new ButtonBuilder()
@@ -236,9 +239,9 @@ Emoji: ${emoji}` : ""}`});
             if(configuration.button.emoji !== "null"){
                 let emoji = configuration.button.emoji;
                 if(/(\d{17,19})/.test(emoji)){
-                    emoji = bot.emojis.resolve(emoji);
-                    if(emoji){
-                        button.setEmoji(emoji);
+                    let guildemoji = bot.emojis.resolve(emoji);
+                    if(guildemoji){
+                        button.setEmoji({animated: guildemoji.animated ?? false, id: guildemoji.id, name: guildemoji.name});
                     }
                 } else {
                     button.setEmoji(configuration.button.emoji);
@@ -250,7 +253,8 @@ Emoji: ${emoji}` : ""}`});
                     new ActionRowBuilder().setComponents([button])
                 ]
             });
-        }).catch(() => {
+        }).catch((e) => {
+            console.log(e);
             console.log("Post information invalid, resetting it.");
             configuration.post = "null";
             saveConfiguration(interaction.guild.id,configuration,bot);
