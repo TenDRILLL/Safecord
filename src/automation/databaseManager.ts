@@ -65,7 +65,8 @@ export function getConfiguration(id){
     });
 }
 
-export function saveConfiguration(id,config){
+export function saveConfiguration(id,config,bot){
+    bot.db.set(id,config);
     return new Promise((res,rej)=>{
         connection.query(
             `UPDATE Guilds \
