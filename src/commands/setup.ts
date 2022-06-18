@@ -215,13 +215,13 @@ Emoji: ${emoji}` : ""}`, ephemeral: true});
                     {name: "Role", value: `${interaction.guild.roles.cache.get(configuration.role).toString()}`},
                     {name: "Button", value: `Text: ${configuration.button.name}
 Color: ${configuration.button.color}
-${configuration.button.emoji !== "null" ? `Emoji: ${configuration.button.emoji}` : ""}`}, //TODO: Handle sending a custom emoji, supports unicode for now.
+${configuration.button.emoji !== "null" ? `Emoji: ${this.resolveEmoji(configuration.button.emoji,bot)}` : ""}`},
                     {name: "Message", value: configuration.message},
                     {name: "Disabled", value: configuration.disable},
                     {name: "Post", value: `${configuration.post !== "null" ? `Exists [here](<https://discord.com/channels/${configuration.post}>)` : "Doesn't exist yet."}`}
                 ]);
             interaction.reply({
-                content: `${JSON.stringify(configuration)}`, //I need to format it, maybe an embed.
+                embeds: [configEmbed],
                 ephemeral: true
             });
         }
@@ -247,6 +247,15 @@ ${configuration.button.emoji !== "null" ? `Emoji: ${configuration.button.emoji}`
             case "Blurple":
             default:
                 return ButtonStyle.Primary;
+        }
+    }
+
+    resolveEmoji(emoji,bot){
+        let emojiTest = bot.emojis.resolve(emoji);
+        if(emojiTest){
+            return emojiTest;
+        } else {
+            return emoji;
         }
     }
 
