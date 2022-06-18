@@ -5,8 +5,7 @@ import {
     ButtonStyle
 } from "discord.js";
 import { saveConfiguration } from "../automation/databaseManager";
-import { Command } from "../classes/Command";
-import CaptchaConfig from "../../types/CaptchaConfig";
+import Command from "../classes/Command";
 class setup extends Command{
     constructor(){
         super(
@@ -100,8 +99,8 @@ class setup extends Command{
         * */
     }
 
-    async cmdRun(interaction,bot){
-        let configuration = bot.db.get(interaction.guild.id) as CaptchaConfig;
+    async cmdRun(bot, interaction){
+        let configuration = bot.db.get(interaction.guild.id);
 
         if(interaction.options.get("channel")){
             if(configuration.post !== "null"){
@@ -204,7 +203,7 @@ Emoji: ${emoji}` : ""}`});
         }
     }
 
-    acRun(interaction){
+    acRun(bot, interaction){
         const focus = interaction.options.getFocused(true);
         if(focus.name === "color") {
             interaction.respond(["Gray", "Green", "Red", "Blurple"].filter(x => x.toLowerCase().startsWith(focus.value.toLowerCase())).map(x => ({name: x, value: x})));

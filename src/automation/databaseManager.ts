@@ -1,5 +1,5 @@
 import * as mysql from "mysql";
-import {CaptchaConfig} from "../classes/CaptchaConfig";
+import CaptchaConfig from "../classes/CaptchaConfig";
 
 const connection = mysql.createConnection({
     host: process.env.db_host,
@@ -42,14 +42,14 @@ post VARCHAR(255)
     });
 }
 
-export function getConfiguration(id){
-    return new Promise((res,rej)=>{
+export function getConfiguration(id) {
+    return new Promise<ConfigObject>((res,rej)=>{
         connection.query(
             `SELECT * FROM Guilds WHERE guildID = "${id}"`,
             (error, results, fields)=>{
                 if(error) rej(error);
                 if(results.length === 0){
-                    const config = new CaptchaConfig({});
+                    const config = new CaptchaConfig();
                     createConfiguration(id,config).then(() => {
                         console.log(`${id} added to the database.`);
                     });

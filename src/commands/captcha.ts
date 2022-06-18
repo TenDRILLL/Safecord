@@ -1,15 +1,15 @@
 import { CaptchaModal } from "../classes/CaptchaModal";
-import { Command } from "../classes/Command";
+import Command from "../classes/Command";
 class Captcha extends Command{
     constructor() {
-        super("captcha",undefined);
+        super("captcha");
     }
-    btnRun(interaction,bot){
+    btnRun(bot, interaction){
         const config = bot.db.get(interaction.guild.id);
         interaction.showModal(new CaptchaModal(config.description).getModal());
     }
 
-    msRun(interaction,bot){
+    msRun(bot, interaction){
         const givenCode = interaction.fields.getTextInputValue("code");
         const correctCode = interaction.customId.split("-")[1];
         if(givenCode.toLowerCase() === correctCode){

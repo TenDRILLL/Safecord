@@ -1,4 +1,5 @@
-import { Client, GatewayIntentBits } from "discord.js";
+import { GatewayIntentBits } from "discord.js";
+import { Client } from "./types/classes";
 import * as createEvents from "./automation/createEvents";
 import 'dotenv/config';
 const bot = new Client({
@@ -6,8 +7,6 @@ const bot = new Client({
         GatewayIntentBits.Guilds
     ]
 });
-
-bot["db"] = new Map();
 
 createEvents.exec(bot);
 
