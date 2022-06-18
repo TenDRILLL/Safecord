@@ -85,6 +85,10 @@ class setup extends Command{
                                 required: true
                             }
                         ]
+                    }, {
+                        name: "view",
+                        description: "View the current configuration of the Captcha Modal and Message.",
+                        type: ApplicationCommandOptionType.Subcommand
                     }
                 ]
             }
@@ -96,6 +100,7 @@ class setup extends Command{
         *  -> locale STRING:set:AUTOCOMPLETE
         *  -> disable BOOLEAN:disable
         *  -> send CHANNEL:channel
+        *  -> view CAPTCHACONFIG
         * */
     }
 
@@ -201,6 +206,13 @@ Name: ${name}
 Color: ${color}${emoji !== "" ? `
 Emoji: ${emoji}` : ""}`, ephemeral: true});
             return this.updateCaptcha(interaction,configuration,bot);
+        }
+
+        if(interaction.options.getSubcommand("view")){
+            interaction.reply({
+                content: `${JSON.stringify(configuration)}`,
+                ephemeral: true
+            });
         }
     }
 
