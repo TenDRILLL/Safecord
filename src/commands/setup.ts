@@ -133,7 +133,7 @@ class setup extends Command{
                     new ActionRowBuilder().setComponents([button])
                 ]
             }).then((sent)=>{
-                interaction.reply({content: "Sent."});
+                interaction.reply({content: "Sent.", ephemeral: true});
                 configuration.post = `${interaction.guild.id}/${sent.channel.id}/${sent.id}`;
                 return saveConfiguration(interaction.guild.id, configuration, bot);
             });
@@ -141,10 +141,11 @@ class setup extends Command{
 
         if(interaction.options.get("role")){
             const role = interaction.options.get("role").role;
-            if(configuration.role === role.id) return interaction.reply({content: "❌ ERROR: `New role cannot be the same as the old role.`"});
+            if(configuration.role === role.id) return interaction.reply({content: "❌ ERROR: `New role cannot be the same as the old role.`", ephemeral: true});
+            if(!(role.manageable())) return interaction.reply({content: "❌ ERROR: `Role is either above me or my highest role.`", ephemeral: true});
             configuration.role = role.id;
             saveConfiguration(interaction.guild.id, configuration, bot);
-            interaction.reply({content: `Role set to: ${role.name}.`});
+            interaction.reply({content: `Role set to: ${role.name}.`, ephemeral: true});
             return this.updateCaptcha(interaction,configuration,bot);
         }
 
@@ -152,13 +153,13 @@ class setup extends Command{
             configuration.message = interaction.options.get("message").value;
             saveConfiguration(interaction.guild.id, configuration, bot);
             interaction.reply({content: `Message set to:
-${configuration.message}`});
+${configuration.message}`, ephemeral: true});
             return this.updateCaptcha(interaction,configuration,bot);
         }
 
         if(interaction.options.get("disable")){
             const disable = interaction.options.get("disable").value;
-            if(configuration.disable === disable) return interaction.reply({content: `❌ ERROR: \`Button is already set to ${disable ? "disabled" : "enabled"}\`.`});
+            if(configuration.disable === disable) return interaction.reply({content: `❌ ERROR: \`Button is already set to ${disable ? "disabled" : "enabled"}\`.`, ephemeral: true});
             configuration.disable = disable;
             saveConfiguration(interaction.guild.id, configuration, bot);
             interaction.reply({content: `Button ${disable ? "disabled" : "enabled"}.`});
@@ -179,18 +180,18 @@ ${configuration.message}`});
                     if(emojiTest){
                         configuration.button.emoji = id;
                     } else {
-                        return interaction.reply({content: `❌ ERROR: \`Emoji provided is from a server I am not on.\``});
+                        return interaction.reply({content: `❌ ERROR: \`Emoji provided is from a server I am not on.\``, ephemeral: true});
                     }
                 } else if(unicodeEmojiRgx.test(emoji)){
                     configuration.button.emoji = emoji;
                 } else {
-                    return interaction.reply({content: `❌ ERROR: \`${emoji} is not a valid Emoji.\``});
+                    return interaction.reply({content: `❌ ERROR: \`${emoji} is not a valid Emoji.\``, ephemeral: true});
                 }
             } else if(configuration.button.emoji){
                 configuration.button.emoji = "null";
             }
             if(!(["Gray", "Green", "Red", "Blurple"].includes(color))){
-                return interaction.reply({content: `❌ ERROR: \`${color} is not a valid color.\``});
+                return interaction.reply({content: `❌ ERROR: \`${color} is not a valid color.\``, ephemeral: true});
             }
             configuration.button.name = name;
             configuration.button.color = color;
@@ -198,7 +199,7 @@ ${configuration.message}`});
             interaction.reply({content: `Following properties were set:
 Name: ${name}
 Color: ${color}${emoji !== "" ? `
-Emoji: ${emoji}` : ""}`});
+Emoji: ${emoji}` : ""}`, ephemeral: true});
             return this.updateCaptcha(interaction,configuration,bot);
         }
     }
