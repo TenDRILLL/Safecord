@@ -209,16 +209,22 @@ Emoji: ${emoji}` : ""}`, ephemeral: true});
         }
 
         if(interaction.options.getSubcommand("view")){
+            const message = await interaction.guild.channels.cache.get(configuration.post.split("/")[1])
+                .messages.fetch({message: configuration.post.split("/")[2], force: true}).catch(()=>{return;});
+            if(!message) configuration.post = "null";
+            saveConfiguration(interaction.guild.id,configuration,bot);
+            let emoji;
+            if(configuration.button.emoji !== "null") emoji = this.resolveEmoji(configuration.button.emoji,bot);
             const configEmbed = new EmbedBuilder()
                 .setTitle(`Configuration for ${interaction.guild.name}`)
                 .setFields([
-                    {name: "Role", value: `${interaction.guild.roles.cache.get(configuration.role).toString()}`},
+                    {name: "Role", value: `${interaction.guild.roles.cache.get(configuration.role).toString()}`, inline: true},
                     {name: "Button", value: `Text: ${configuration.button.name}
 Color: ${configuration.button.color}
-${configuration.button.emoji !== "null" ? `Emoji: ${this.resolveEmoji(configuration.button.emoji,bot)}` : ""}`},
+${emoji ? `Emoji: ${emoji}` : ""}`, inline: true},
                     {name: "Message", value: configuration.message},
-                    {name: "Disabled", value: configuration.disable},
-                    {name: "Post", value: `${configuration.post !== "null" ? `Exists [here](<https://discord.com/channels/${configuration.post}>)` : "Doesn't exist yet."}`}
+                    {name: "Disabled", value: configuration.disable.toString(), inline: true},
+                    {name: "Post", value: `${configuration.post !== "null" ? `Exists [here](<https://discord.com/channels/${configuration.post}>)` : "Doesn't exist yet."}`, inline: true}
                 ]);
             interaction.reply({
                 embeds: [configEmbed],
