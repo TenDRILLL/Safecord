@@ -2,7 +2,7 @@ import {
     ApplicationCommandOptionType,
     ActionRowBuilder,
     ButtonBuilder,
-    ButtonStyle
+    ButtonStyle, EmbedBuilder
 } from "discord.js";
 import { saveConfiguration } from "../automation/databaseManager";
 import Command from "../classes/Command";
@@ -209,8 +209,19 @@ Emoji: ${emoji}` : ""}`, ephemeral: true});
         }
 
         if(interaction.options.getSubcommand("view")){
+            const configEmbed = new EmbedBuilder()
+                .setTitle(`Configuration for ${interaction.guild.name}`)
+                .setFields([
+                    {name: "Role", value: `${interaction.guild.roles.cache.get(configuration.role).toString()}`},
+                    {name: "Button", value: `Text: ${configuration.button.name}
+Color: ${configuration.button.color}
+${configuration.button.emoji !== "null" ? `Emoji: ${configuration.button.emoji}` : ""}`}, //TODO: Handle sending a custom emoji, supports unicode for now.
+                    {name: "Message", value: configuration.message},
+                    {name: "Disabled", value: configuration.disable},
+                    {name: "Post", value: `${configuration.post !== "null" ? `Exists [here](<https://discord.com/channels/${configuration.post}>)` : "Doesn't exist yet."}`}
+                ]);
             interaction.reply({
-                content: `${JSON.stringify(configuration)}`,
+                content: `${JSON.stringify(configuration)}`, //I need to format it, maybe an embed.
                 ephemeral: true
             });
         }
