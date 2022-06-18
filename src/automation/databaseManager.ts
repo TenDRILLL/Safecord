@@ -8,6 +8,8 @@ const connection = mysql.createConnection({
     database: process.env.db_database
 });
 
+let retries = 0;
+
 export function startConnection(){
     return new Promise((res)=>{
         connection.connect((err)=>{
@@ -47,7 +49,7 @@ export function getConfiguration(id) {
         connection.query(
             `SELECT * FROM Guilds WHERE guildID = "${id}"`,
             (error, results, fields)=>{
-                if(error) rej(error);
+                if(error) return console.log(error);
                 if(results.length === 0){
                     const config = new CaptchaConfig();
                     createConfiguration(id,config).then(() => {
