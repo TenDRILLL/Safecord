@@ -1,6 +1,8 @@
 # Safecord
 A Discord Bot that allows you to give a GuildMember a Role after they complete a ModalInteraction "CAPTCHA".
 
+[Invite the Bot](https://discord.com/api/oauth2/authorize?client_id=979707790962601995&permissions=268487680&scope=bot%20applications.commands)
+
 Checklist:
 - [x] Modal captcha
 - - [x] Random code in title *"${code}"*
